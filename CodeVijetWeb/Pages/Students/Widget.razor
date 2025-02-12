@@ -37,23 +37,52 @@
         </div>
     </div>
 
-    <div style="height: 68vh;" class="mt-4 card rounded">
-        <pre style="height: 80vh; white-space: pre-wrap;" class="m-0 language-csharp @((MarkupString)RenderNoCopyClass(_currentWidget is null || _currentWidget.IsCopyable))">
-            <code>
-                @if (_currentWidget != null)
-                {
-                    if (_isShowHistory)
-                    { 
-                        @((MarkupString)RenderTokenizeFromPrism(RenderTokenizeFromHistory()));
-                    }
-                    else
+    @if (_currentWidget.IsCopyable == false)
+    {
+        @if (_isShowHistory)
+        {
+            @foreach (var item in RenderTokenizeFromPrism(RenderTokenizeFromHistory()).Split('\n'))
+            {
+                <pre style="height: auto; margin: 0; padding: 0;" class="m-0 language-csharp @((MarkupString)RenderNoCopyClass(_currentWidget is null || _currentWidget.IsCopyable))">
+                    <code>
+                            @((MarkupString)RenderTokenizeFromPrism(item))
+                    </code>   
+                </pre>
+            }
+        }
+        else
+        {
+            @foreach (var item in _currentWidget.Code.Split('\n'))
+            {
+                <pre style="height: auto; margin: 0; padding: 0;" class="m-0 language-csharp @((MarkupString)RenderNoCopyClass(_currentWidget is null || _currentWidget.IsCopyable))">
+                     <code>
+                        @((MarkupString)RenderTokenizeFromPrism(item))
+                     </code>   
+                </pre>
+            }
+        }
+    }
+    else
+    {
+        <div style="height: 68vh;" class="mt-4 card rounded">
+            <pre style="height: 80vh; white-space: pre-wrap;" class="m-0 language-csharp @((MarkupString)RenderNoCopyClass(_currentWidget is null || _currentWidget.IsCopyable))">
+                 <code>
+                    @if (_currentWidget != null)
                     {
-                        @((MarkupString)RenderTokenizeFromPrism(_currentWidget.Code))
+                        if (_isShowHistory)
+                        { 
+                            @((MarkupString)RenderTokenizeFromPrism(RenderTokenizeFromHistory()))
+                            ;
+                        }
+                        else
+                        {
+                            @((MarkupString)RenderTokenizeFromPrism(_currentWidget.Code))
+                        }
                     }
-                }
-            </code>
-        </pre>
-    </div>
+                </code>
+            </pre>
+        </div>
+    }
 }
 else
 {
