@@ -41,7 +41,8 @@
     {
         @if (_isShowHistory)
         {
-            @foreach (var item in RenderTokenizeFromPrism(RenderTokenizeFromHistory()).Split('\n'))
+            var r = _currentWidget?.History.FirstOrDefault(x => x.Id == _currentHistory)?.Code ?? string.Empty;
+            @foreach (var item in r.Split('\n'))
             {
                 <pre style="height: auto; margin: 0; padding: 0;" class="m-0 language-csharp @((MarkupString)RenderNoCopyClass(_currentWidget is null || _currentWidget.IsCopyable))">
                     <code>
